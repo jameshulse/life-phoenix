@@ -17,7 +17,8 @@ defmodule LifeWeb.Router do
   scope "/", LifeWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    # get "/", PageController, :index
+    live("/", Life.Game)
   end
 
   # Other scopes may use custom stacks.

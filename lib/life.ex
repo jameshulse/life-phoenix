@@ -7,10 +7,12 @@ defmodule Life do
   if it comes from the database, an external API or others.
   """
 
+  require Logger
+
   alias Life.Application
 
   def new_game do
-    {:ok, pid} = Application.start(nil, nil)
+    {:ok, pid} = Application.start_game()
 
     pid
   end
@@ -21,5 +23,13 @@ defmodule Life do
 
   def tick(game) do
     GenServer.call(game, {:tick})
+  end
+
+  def play(game, callback) do
+    GenServer.cast(game, {:play, callback})
+  end
+
+  def stop(game) do
+    GenServer.cast(game, {:stop})
   end
 end

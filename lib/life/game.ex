@@ -1,23 +1,19 @@
 defmodule Life.Game do
-  @type state :: :setup | :running
-
   @type t :: %__MODULE__{
-          state: state(),
           cells: [{integer(), integer()}],
           bounds: {integer(), integer()}
         }
 
   defstruct(
-    state: :setup,
     cells: [],
     bounds: {}
   )
 
   def new_game() do
-    new_game({100, 100})
+    new_game({50, 50})
   end
 
-  @spec new_game(any) :: %Life.Game{bounds: Tuple, cells: [], state: :setup}
+  @spec new_game(any) :: %Life.Game{bounds: Tuple, cells: []}
   def new_game(bounds) do
     %__MODULE__{bounds: bounds}
   end
