@@ -15,7 +15,7 @@ defmodule Life.Server do
   end
 
   @impl true
-  def handle_call({:toggle, cell}, _from, game) do
+  def handle_call({:toggle_cell, cell}, _from, game) do
     game = Game.toggle_cell(game, cell)
 
     {:reply, game, game}

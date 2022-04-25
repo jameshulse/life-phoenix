@@ -5,6 +5,10 @@ defmodule Life.Application do
 
   use Application
 
+  alias Life.Server
+
+  @name GameStarter
+
   @impl true
   def start(_type, _args) do
     children = [
@@ -16,14 +20,19 @@ defmodule Life.Application do
       {Phoenix.PubSub, name: Life.PubSub},
       # Start the Endpoint (http/https)
       LifeWeb.Endpoint,
-      # Start a worker by calling: Life.Worker.start_link(arg)
-      Life.Server
+      # Supervisor for game instances
+      {DynamicSupervisor, strategy: :one_for_one, name: @name}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Life.Supervisor]
+
     Supervisor.start_link(children, opts)
+  end
+
+  def start_game() do
+    DynamicSupervisor.start_child(@name, {Server, nil})
   end
 
   # Tell Phoenix to update the endpoint configuration
